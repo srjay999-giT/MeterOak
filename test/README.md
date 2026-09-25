@@ -58,6 +58,17 @@ For the documented hidden-table-label overflow correction, `--allow-overflow-fix
 
 These tests cover Chromium, not Firefox, WebKit, or Selenium. Frozen-data checks establish regression behavior only: they cannot prove that upstream tools logged every event, that historical prices are current, or that an API-equivalent estimate equals a paid bill.
 
+## Public demo
+
+```sh
+npm run build:demo
+node test/browser-demo.mjs
+# Check the deployed GitHub Pages version:
+node test/browser-demo.mjs --remote
+```
+
+The default check serves `dist-demo/` through browser request interception at the `/MeterOak/` project path, without starting a reader. It checks all six pages on desktop and mobile, session details, source filtering, CSV export, demo-only preference storage, and asset loading. Requests outside the demo origin/path or to `/api/` fail the check. `--remote` checks the public demo with the same isolated browser profile.
+
 ## Laptop and phone layout
 
 `browser-responsive.mjs` captures all six pages in both appearances at 1280×720, 1440×800, 1600×1000, 390×844, and 320×700. It checks the header gap, viewport width, primary mobile control sizes, access to the bottom of the page and sidebar, and actual horizontal scrolling of wide tables. It also records DOM dimensions alongside each screenshot.

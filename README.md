@@ -8,6 +8,7 @@
 <p align="center">A local dashboard for AI coding usage, tokens, cache efficiency, and API cost estimates.</p>
 
 <p align="center">
+  <a href="https://srjay999-git.github.io/MeterOak/">Live demo</a> ·
   <a href="#quickstart">Quickstart</a> ·
   <a href="#how-it-works">How it works</a> ·
   <a href="#privacy-and-storage">Privacy</a> ·
@@ -19,6 +20,14 @@
 <p align="center"><sub>Portfolio mode · Sanitized example records · Dollar values are estimates, not a bill.</sub></p>
 
 **Currently supports Codex and OpenCode only.** No MeterOak account, API key, or billing connection is required.
+
+## Live demo
+
+**[Try MeterOak in your browser →](https://srjay999-git.github.io/MeterOak/)**
+
+Explore all six pages, filters, session details, budgets, and CSV export without installing anything. The demo uses a fixed, sanitized example snapshot in Portfolio mode. It cannot read your files, AI accounts, or billing records. Demo preferences stay in your browser, and its dollar amounts are illustrative estimates.
+
+To see **your own usage**, run MeterOak locally using the steps below.
 
 ## Inside the dashboard
 
@@ -103,67 +112,43 @@ Configured long-context rates apply when request size is known. **Unpriced** eve
 
 ## Screenshots
 
-Every dashboard capture below uses **Portfolio mode** and a sanitized snapshot. Open a section to see the full page.
+Every dashboard capture below uses **Portfolio mode** and a sanitized snapshot. Click any image to open it at full size.
 
-<details>
-<summary><strong>Overview — complete page</strong></summary>
+### Overview — complete page
 
 ![Full Portfolio overview](docs/screenshots/overview.png)
 
-</details>
-
-<details>
-<summary><strong>Models</strong></summary>
+### Models
 
 ![Portfolio model usage page](docs/screenshots/models.png)
 
-</details>
-
-<details>
-<summary><strong>Session history and details</strong></summary>
+### Session history and details
 
 ![Portfolio session history](docs/screenshots/sessions.png)
 
 ![Portfolio session detail dialog](docs/screenshots/session-detail.png)
 
-</details>
-
-<details>
-<summary><strong>Budgets</strong></summary>
+### Budgets
 
 ![Portfolio budget targets and warnings](docs/screenshots/budgets.png)
 
-</details>
-
-<details>
-<summary><strong>Insights</strong></summary>
+### Insights
 
 ![Portfolio usage insights](docs/screenshots/insights.png)
 
-</details>
-
-<details>
-<summary><strong>Connections</strong></summary>
+### Connections
 
 ![Portfolio local source connections and diagnostics](docs/screenshots/connections.png)
 
-</details>
-
-<details>
-<summary><strong>Pricing methodology</strong></summary>
+### Pricing methodology
 
 ![Saved rates, long-context rules, and pricing coverage in Portfolio mode](docs/screenshots/pricing-details.png)
 
-</details>
-
-<details>
-<summary><strong>Mobile overview and opening screen</strong></summary>
+### Mobile overview and opening screen
 
 <img src="docs/screenshots/mobile.png" alt="Portfolio overview on mobile" width="390">
 
 ![MeterOak opening screen](docs/screenshots/opening.png)
-
-</details>
 
 ## Roadmap
 
@@ -173,6 +158,7 @@ Planned integrations: **Claude Code, Cursor, Antigravity, Devin, and more AI IDE
 
 ```sh
 npm run build          # Type-check and create dist/
+npm run build:demo     # Build the static sample demo in dist-demo/
 npm test               # Reader, accounting, and frontend data tests
 npm run format:check   # Check source formatting
 ```

@@ -3,6 +3,7 @@ import { compact, costText, localDate, number } from '../data';
 import type { Dashboard, Page } from '../types';
 import { sourceName } from '../sourceName';
 import { Icon } from './Icon';
+import { isDemo } from '../demo';
 
 const costBasis: Record<string, string> = {
   reported: 'Reported by source',
@@ -49,8 +50,10 @@ export function Sessions({
           <h2 className="panel-title">{compactView ? 'Recent sessions' : 'Session history'}</h2>
           <p className="muted">
             {compactView
-              ? 'A closer look at your latest activity'
-              : `${number(filtered.length)} sessions in the last 30 days`}
+              ? isDemo
+                ? 'A closer look at the sample activity'
+                : 'A closer look at your latest activity'
+              : `${number(filtered.length)} sessions in ${isDemo ? 'the sample snapshot' : 'the last 30 days'}`}
           </p>
         </div>
         {compactView ? (

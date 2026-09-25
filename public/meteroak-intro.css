@@ -30,7 +30,7 @@ html.meteroak-intro-active #root { visibility: hidden; }
   width: 36px;
   height: 36px;
   background: #142e43;
-  mask: url('/meteroak-mark.svg') center / contain no-repeat;
+  mask: url('meteroak-mark.svg') center / contain no-repeat;
 }
 #meteroak-intro .meteroak-intro-brand strong {
   font-size: 25px;

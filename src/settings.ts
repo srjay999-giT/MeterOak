@@ -1,4 +1,6 @@
+import { isDemo } from './demo';
+
 export const settingKeys = {
-  appearance: 'meteroak.appearance.v1',
-  budgets: 'meteroak.local.budgets.v1',
+  appearance: isDemo ? 'meteroak.demo.appearance.v1' : 'meteroak.appearance.v1',
+  budgets: isDemo ? 'meteroak.demo.budgets.v1' : 'meteroak.local.budgets.v1',
 };

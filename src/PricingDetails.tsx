@@ -2,6 +2,7 @@ import type { Dashboard, ModelUsage, PricingRate, PricingTier } from './types';
 import React from 'react';
 import { money, number, shortDate } from './data';
 import { modelLabel } from './models';
+import { isDemo } from './demo';
 
 const sourceLink = (value: string | null | undefined) => {
   try {
@@ -24,9 +25,11 @@ export function PricingDetails({ data }: { data: Dashboard }) {
       </summary>
       <div className="pricing-explanation">
         <p>
-          Recorded token counts × the saved price for each model. These estimates apply today's
-          saved rates to your usage history; they do not reconstruct past invoices or subscription
-          charges.
+          Recorded token counts × the saved price for each model. These estimates apply{' '}
+          {isDemo
+            ? "the snapshot's saved rates to its sample usage"
+            : "today's saved rates to your usage history"}
+          ; they do not reconstruct past invoices or subscription charges.
         </p>
         <p>
           Standard processing is assumed. Fast mode premiums, Batch/Flex discounts, tool fees,

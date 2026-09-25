@@ -10,6 +10,7 @@ import type {
 } from './types';
 import { useEffect, useState } from 'react';
 import { money, compact, number, sourceHasIssues, sourceLabel } from './data';
+import { isDemo } from './demo';
 
 const sourceNames: Record<string, string> = {
   all: 'All sources',
@@ -108,7 +109,9 @@ export function BudgetPanel({
         <div className="panel-head">
           <div>
             <p className="eyebrow">{sourceName(source)}</p>
-            <h2 className="panel-title">Rolling 30-day cost target</h2>
+            <h2 className="panel-title">
+              {isDemo ? 'Sample 30-day cost target' : 'Rolling 30-day cost target'}
+            </h2>
           </div>
           <span className={`badge ${budget ? (reached ? 'warning' : 'success') : ''}`}>
             {budget ? (reached ? 'Threshold reached' : 'Target active') : 'No target'}
@@ -121,7 +124,7 @@ export function BudgetPanel({
           {money(cost)}
           {incomplete && cost !== null ? '+' : ''}
         </div>
-        <p className="muted">Known cost · Last 30 days</p>
+        <p className="muted">Known cost · {isDemo ? 'Sample 30 days' : 'Last 30 days'}</p>
         {budget ? (
           <>
             <Progress value={used} label="Recorded cost as a percentage of your target" />
@@ -169,8 +172,10 @@ export function BudgetPanel({
           </div>
         </div>
         <p className="muted">
-          Saved in this browser for {sourceName(source).toLowerCase()}. The rolling window updates
-          each day.
+          Saved in this browser for {sourceName(source).toLowerCase()}.{' '}
+          {isDemo
+            ? 'Sample totals stay fixed as you try different targets.'
+            : 'The rolling window updates each day.'}
         </p>
         <form onSubmit={save}>
           <div className="form-grid">
@@ -281,16 +286,19 @@ export function ConnectionsPanel({ data, onRefresh }: { data: Dashboard; onRefre
       <section className="panel">
         <div className="panel-head">
           <div>
-            <p className="eyebrow">On this computer</p>
-            <h2 className="panel-title">Your usage sources</h2>
+            <p className="eyebrow">{isDemo ? 'In the sample snapshot' : 'On this computer'}</p>
+            <h2 className="panel-title">
+              {isDemo ? 'Sample usage sources' : 'Your usage sources'}
+            </h2>
           </div>
           <button className="button" onClick={onRefresh}>
-            Scan again
+            {isDemo ? 'Reload sample' : 'Scan again'}
           </button>
         </div>
         <p className="muted">
-          MeterOak reads local usage records from your coding tools. You do not need to enter an API
-          key.
+          {isDemo
+            ? 'These sources belong to a sanitized sample. This demo does not scan your computer or connect to AI accounts.'
+            : 'MeterOak reads local usage records from your coding tools. You do not need to enter an API key.'}
         </p>
       </section>
       <div className="card-grid">
@@ -310,15 +318,17 @@ export function ConnectionsPanel({ data, onRefresh }: { data: Dashboard; onRefre
               <span
                 className={`badge ${sourceHasIssues(source) ? 'warning' : source.available ? 'success' : ''}`}
               >
-                {sourceLabel(source)}
+                {isDemo ? 'Sample' : sourceLabel(source)}
               </span>
             </div>
             <p className="muted">
-              {source.id === 'codex'
-                ? 'Usage recorded by Codex on this computer.'
-                : source.id === 'opencode'
-                  ? 'Usage recorded by OpenCode on this computer.'
-                  : 'Usage available in local records.'}
+              {isDemo
+                ? `Historical sample records for ${sourceName(source.id)}.`
+                : source.id === 'codex'
+                  ? 'Usage recorded by Codex on this computer.'
+                  : source.id === 'opencode'
+                    ? 'Usage recorded by OpenCode on this computer.'
+                    : 'Usage available in local records.'}
             </p>
             <div className="stat-row">
               <span>Sessions found</span>
@@ -412,7 +422,7 @@ export function ConnectionsPanel({ data, onRefresh }: { data: Dashboard; onRefre
       <section className="panel">
         <div className="panel-head">
           <div>
-            <p className="eyebrow">From local records</p>
+            <p className="eyebrow">{isDemo ? 'From sample records' : 'From local records'}</p>
             <h2 className="panel-title">Recorded usage limits</h2>
           </div>
           <span className="badge">Snapshots</span>

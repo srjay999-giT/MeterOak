@@ -1,6 +1,7 @@
 import type { Dashboard, ModelUsage, Page, UsageMetric } from './types';
 import { useState } from 'react';
 import { compact, money, number } from './data';
+import { isDemo } from './demo';
 import './models.css';
 
 const valid = (value: unknown): value is number =>
@@ -261,7 +262,11 @@ export function Models({ data }: { data: Dashboard }) {
         <div className="panel-head">
           <div>
             <h2 className="panel-title">Model breakdown</h2>
-            <p className="muted">Exact models from your local records · Last 30 days</p>
+            <p className="muted">
+              {isDemo
+                ? 'Exact models from the sample snapshot · Sample 30 days'
+                : 'Exact models from your local records · Last 30 days'}
+            </p>
           </div>
           <div className="chart-actions cp-model-table-actions">
             <label className="search-field">

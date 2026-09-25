@@ -7,6 +7,7 @@
     "dev": "vite --host 127.0.0.1 --port 4520 --strictPort",
     "start": "node start.mjs",
     "build": "npm run typecheck && vite build",
+    "build:demo": "npm run typecheck && vite build --mode demo",
     "preview": "vite preview --host 127.0.0.1 --port 4520 --strictPort",
     "typecheck": "tsc --noEmit",
     "test": "node scripts/test.mjs",

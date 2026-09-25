@@ -20,6 +20,7 @@ import { Sessions } from './components/Sessions';
 import { TokenBreakdown } from './components/TokenBreakdown';
 import { sourceName } from './sourceName';
 import { settingKeys } from './settings';
+import { isDemo, loadDemoDashboard } from './demo';
 
 const nav: Array<[Page, string, string]> = [
   ['overview', 'Overview', 'grid'],
@@ -44,7 +45,7 @@ function exportCSV(data: Dashboard, source: string, page: Page) {
   const url = URL.createObjectURL(new Blob([text], { type: 'text/csv;charset=utf-8' }));
   const link = document.createElement('a');
   link.href = url;
-  link.download = `meteroak-${source}-${modelMode ? 'models' : 'sessions'}.csv`;
+  link.download = `meteroak-${isDemo ? 'demo-' : ''}${source}-${modelMode ? 'models' : 'sessions'}.csv`;
   document.body.append(link);
   link.click();
   link.remove();
@@ -69,7 +70,11 @@ export function App() {
   const [budgets, setBudgets] = useState<Record<string, Budget | null>>(() => {
     try {
       const b: unknown = JSON.parse(localStorage.getItem(settingKeys.budgets) ?? 'null');
-      return b && typeof b === 'object' ? (b as Record<string, Budget | null>) : {};
+      return b && typeof b === 'object'
+        ? (b as Record<string, Budget | null>)
+        : isDemo
+          ? { all: { amount: 2000, threshold: 80 } }
+          : {};
     } catch {
       return {};
     }
@@ -90,19 +95,26 @@ export function App() {
     pending.current = true;
     setBusy(true);
     try {
-      const response = await fetch('/api/dashboard?source=all', {
-        signal: AbortSignal.timeout(90000),
-      });
-      if (!response.ok) throw new Error(`Reader returned ${response.status}`);
-      const next: RawDashboardSnapshot = await response.json();
+      let next: RawDashboardSnapshot;
+      if (isDemo) {
+        next = await loadDemoDashboard();
+      } else {
+        const response = await fetch('/api/dashboard?source=all', {
+          signal: AbortSignal.timeout(90000),
+        });
+        if (!response.ok) throw new Error(`Reader returned ${response.status}`);
+        next = await response.json();
+      }
       if (!next.stats?.usage) throw new Error('The usage reader returned an incomplete snapshot.');
       setRaw(next);
       setError(null);
     } catch (e) {
       setError(
-        e instanceof Error && e.name === 'TimeoutError'
-          ? 'The local reader is taking longer than expected. Try refreshing.'
-          : 'Cannot reach the local usage reader. Start it and refresh this page.',
+        isDemo
+          ? 'Could not load the demo snapshot. Refresh this page to try again.'
+          : e instanceof Error && e.name === 'TimeoutError'
+            ? 'The local reader is taking longer than expected. Try refreshing.'
+            : 'Cannot reach the local usage reader. Start it and refresh this page.',
       );
     } finally {
       setBusy(false);
@@ -111,6 +123,7 @@ export function App() {
   }, []);
   useEffect(() => {
     refresh();
+    if (isDemo) return;
     const timer = setInterval(refresh, 10000);
     return () => clearInterval(timer);
   }, [refresh]);
@@ -195,14 +208,14 @@ export function App() {
         >
           <span className="brand-mark" aria-hidden="true" />
           <span className="brand-wordmark">
-            MeterOak<small>LOCAL WORKSPACE</small>
+            MeterOak<small>{isDemo ? 'DEMO WORKSPACE' : 'LOCAL WORKSPACE'}</small>
           </span>
         </a>
         <div className="workspace-pill">
-          <span className="workspace-symbol">K</span>
+          <span className="workspace-symbol">{isDemo ? 'D' : 'K'}</span>
           <div>
-            <strong>My workspace</strong>
-            <span>Personal analytics</span>
+            <strong>{isDemo ? 'Demo workspace' : 'My workspace'}</strong>
+            <span>{isDemo ? 'Sample analytics' : 'Personal analytics'}</span>
           </div>
           <Icon name="chevron" size={15} />
         </div>
@@ -234,14 +247,18 @@ export function App() {
         <div className="sidebar-bottom">
           <div className="privacy-note">
             <Icon name="shield" />
-            <strong>Your data stays here.</strong>
-            <p>Read from your local usage history. Nothing sent to the cloud.</p>
+            <strong>{isDemo ? 'Sample data only.' : 'Your data stays here.'}</strong>
+            <p>
+              {isDemo
+                ? 'This demo never reads your local history or AI accounts.'
+                : 'Read from your local usage history. Nothing sent to the cloud.'}
+            </p>
           </div>
           <div className="profile">
-            <span className="avatar">K</span>
+            <span className="avatar">{isDemo ? 'D' : 'K'}</span>
             <div>
-              <strong>Personal workspace</strong>
-              <span>On this computer</span>
+              <strong>{isDemo ? 'Demo workspace' : 'Personal workspace'}</strong>
+              <span>{isDemo ? 'Historical sample' : 'On this computer'}</span>
             </div>
             <span className="status-dot" />
           </div>
@@ -259,7 +276,7 @@ export function App() {
             >
               <Icon name="menu" />
             </button>
-            <span>Workspace</span>
+            <span>{isDemo ? 'Demo' : 'Workspace'}</span>
             <b>/</b>
             <strong>{title}</strong>
           </div>
@@ -279,18 +296,22 @@ export function App() {
               className={`connection-status ${error ? 'offline' : sourceIssues ? 'partial' : ''}`}
             >
               <i className="status-dot" />
-              {error
-                ? 'Reader offline'
-                : raw
-                  ? sourceIssues
-                    ? 'Partial local data'
-                    : noSources
-                      ? 'No local source found'
-                      : 'Local data connected'
-                  : 'Reading local usage…'}
+              {isDemo
+                ? error
+                  ? 'Demo unavailable'
+                  : 'Sample data'
+                : error
+                  ? 'Reader offline'
+                  : raw
+                    ? sourceIssues
+                      ? 'Partial local data'
+                      : noSources
+                        ? 'No local source found'
+                        : 'Local data connected'
+                    : 'Reading local usage…'}
             </span>
             <span className="topbar-divider" />
-            <span className="avatar small-avatar">K</span>
+            <span className="avatar small-avatar">{isDemo ? 'D' : 'K'}</span>
           </div>
         </header>
         <main className="main-content">
@@ -306,7 +327,9 @@ export function App() {
                     sessions: 'Explore the usage behind your conversations and coding sessions.',
                     budgets: 'Keep your estimated usage cost within a target you choose.',
                     insights: 'Useful signals from the usage you have already recorded.',
-                    connections: 'One view of the AI tools on this computer.',
+                    connections: isDemo
+                      ? 'Explore the usage sources in this sample snapshot.'
+                      : 'One view of the AI tools on this computer.',
                   }[page]
                 }
               </p>
@@ -316,7 +339,7 @@ export function App() {
                 className={`button refresh-button ${busy ? 'is-refreshing' : ''}`}
                 disabled={busy}
                 onClick={refresh}
-                aria-label="Refresh usage"
+                aria-label={isDemo ? 'Reload sample data' : 'Refresh usage'}
               >
                 <Icon name="refresh" />
               </button>
@@ -333,6 +356,13 @@ export function App() {
               </button>
             </div>
           </div>
+          {isDemo && (
+            <p className="notice" role="note" aria-label="Demo data notice">
+              <strong>Demo · sample data.</strong> A sanitized historical snapshot from September
+              25, 2026. No local history or AI accounts are accessed. Saved targets apply only to
+              this demo.
+            </p>
+          )}
           <div className="filter-bar">
             <label>
               <span className="sr-only">Usage source</span>
@@ -350,7 +380,7 @@ export function App() {
             <span className="filter-divider" />
             <div className="date-label">
               <Icon name="clock" size={15} />
-              <strong>Last 30 days</strong>
+              <strong>{isDemo ? 'Sample 30 days' : 'Last 30 days'}</strong>
               <span>
                 {raw?.stats?.window?.from
                   ? `${shortDate(raw.stats.window.from)} – ${shortDate(raw.stats.window.to)}`
@@ -359,7 +389,11 @@ export function App() {
             </div>
             <span className="filter-spacer" />
             <span className="muted refresh-label">
-              {raw ? `Updated ${formatTime(data.generatedAt)}` : 'Scanning your history…'}
+              {isDemo
+                ? 'Historical snapshot'
+                : raw
+                  ? `Updated ${formatTime(data.generatedAt)}`
+                  : 'Scanning your history…'}
             </span>
           </div>
           {error && (
@@ -383,11 +417,21 @@ export function App() {
           {!raw ? (
             <section className="panel loading-panel">
               <div className={error ? '' : 'loader'} />
-              <h2>{error ? 'Your reader needs attention' : 'Bringing your usage into focus'}</h2>
+              <h2>
+                {isDemo
+                  ? error
+                    ? 'Demo data is unavailable'
+                    : 'Loading the sample snapshot'
+                  : error
+                    ? 'Your reader needs attention'
+                    : 'Bringing your usage into focus'}
+              </h2>
               <p className="muted">
-                {error
-                  ? 'Run npm start in the MeterOak folder to start both services.'
-                  : 'Reading local Codex and OpenCode history. The first scan can take a moment.'}
+                {isDemo
+                  ? 'This demo uses a bundled sample. Refresh the page to load it again.'
+                  : error
+                    ? 'Run npm start in the MeterOak folder to start both services.'
+                    : 'Reading local Codex and OpenCode history. The first scan can take a moment.'}
               </p>
             </section>
           ) : (
@@ -468,8 +512,14 @@ export function App() {
                       <section className="panel source-overview">
                         <div className="panel-head">
                           <div>
-                            <h2 className="panel-title">Your connected tools</h2>
-                            <p className="muted">A direct line to your local history</p>
+                            <h2 className="panel-title">
+                              {isDemo ? 'Sample usage sources' : 'Your connected tools'}
+                            </h2>
+                            <p className="muted">
+                              {isDemo
+                                ? 'Tools represented in this snapshot'
+                                : 'A direct line to your local history'}
+                            </p>
                           </div>
                           <Icon name="plug" />
                         </div>
@@ -502,13 +552,16 @@ export function App() {
                             <span
                               className={`badge ${sourceHasIssues(s) ? 'warning' : s.available ? 'success' : ''}`}
                             >
-                              {sourceLabel(s)}
+                              {isDemo ? 'Sample' : sourceLabel(s)}
                             </span>
                             <Icon name="arrow" size={15} />
                           </button>
                         ))}
                         <p className="source-footnote">
-                          <Icon name="shield" size={13} /> Read-only access to usage records
+                          <Icon name="shield" size={13} />{' '}
+                          {isDemo
+                            ? 'Historical sample · no device access'
+                            : 'Read-only access to usage records'}
                         </p>
                       </section>
                     </div>
@@ -530,7 +583,7 @@ export function App() {
                   dashboard does not read your billing account.
                 </span>
                 <span>
-                  Local only <i className="status-dot" />
+                  {isDemo ? 'Sample data' : 'Local only'} <i className="status-dot" />
                 </span>
               </footer>
             </>
