@@ -1,0 +1,143 @@
+/* First-paint entrance only. Dashboard styles and layout stay independent. */
+#meteroak-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  overflow: auto;
+  background: #fbfbf8;
+  color: #142e43;
+  font-family: 'Avenir Next', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  opacity: 1;
+  transition: opacity 250ms ease;
+}
+#meteroak-intro, #meteroak-intro * { box-sizing: border-box; }
+#meteroak-intro.is-leaving { opacity: 0; }
+html.meteroak-intro-active { overflow: hidden; }
+html.meteroak-intro-active body { overflow: hidden; }
+html.meteroak-intro-active #root { visibility: hidden; }
+#meteroak-intro .meteroak-intro-brand {
+  position: absolute;
+  top: max(32px, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #101315;
+}
+#meteroak-intro .meteroak-intro-brand span {
+  width: 36px;
+  height: 36px;
+  background: #142e43;
+  mask: url('meteroak-mark.svg') center / contain no-repeat;
+}
+#meteroak-intro .meteroak-intro-brand strong {
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+#meteroak-intro .meteroak-intro-center {
+  --intro-mark-size: min(350px, 36vh, 70vw);
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(100% - 40px);
+  text-align: center;
+}
+#meteroak-intro .meteroak-intro-mark {
+  display: block;
+  width: var(--intro-mark-size);
+  height: var(--intro-mark-size);
+  flex-shrink: 0;
+  overflow: visible;
+  stroke-width: 2.3;
+  stroke-linecap: butt;
+  stroke-linejoin: round;
+}
+#meteroak-intro .meteroak-intro-guides { stroke: #e1e6e9; }
+#meteroak-intro .meteroak-intro-rings { stroke: #142e43; }
+#meteroak-intro .meteroak-intro-rings use {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: meteroak-draw-ring 2850ms cubic-bezier(.35, 0, .2, 1) both;
+}
+#meteroak-intro .meteroak-intro-rings .meteroak-intro-ring--inner { animation-delay: 150ms; }
+#meteroak-intro .meteroak-intro-rings .meteroak-intro-ring--middle { animation-delay: 1850ms; }
+#meteroak-intro .meteroak-intro-rings .meteroak-intro-ring--outer { animation-delay: 3600ms; }
+#meteroak-intro .meteroak-intro-progress {
+  display: block;
+  flex-shrink: 0;
+  width: clamp(240px, calc(var(--intro-mark-size) * 1.15), 400px);
+  max-width: 100%;
+  height: auto;
+  margin-top: -4px;
+  overflow: visible;
+}
+#meteroak-intro .meteroak-intro-arc-track { stroke: #d3dce1; stroke-width: 2.5; stroke-linecap: round; }
+#meteroak-intro .meteroak-intro-arc-fill { stroke: #101315; stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 100; }
+#meteroak-intro .meteroak-intro-dot { fill: #101315; }
+#meteroak-intro .meteroak-intro-percentage {
+  fill: #101315;
+  font-size: 22px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+#meteroak-intro .meteroak-intro-progress[hidden] { display: none; visibility: hidden; }
+#meteroak-intro .meteroak-intro-copy { margin-top: 12px; }
+#meteroak-intro .meteroak-intro-label {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .02em;
+  line-height: 1.5;
+  color: #536674;
+  animation: meteroak-loading-breathe 1800ms ease-in-out 1400ms infinite;
+}
+#meteroak-intro .meteroak-intro-caption {
+  margin: 24px 0 0;
+  font-size: clamp(18px, 1.7vw, 24px);
+  font-weight: 400;
+  letter-spacing: -.65px;
+  line-height: 1.4;
+  color: #142e43;
+}
+#meteroak-intro .meteroak-intro-retry {
+  margin-top: 22px;
+  padding: 9px 18px;
+  border: 1px solid #c2cbd1;
+  border-radius: 5px;
+  color: #142e43;
+  text-decoration: none;
+  font-size: 14px;
+}
+#meteroak-intro .meteroak-intro-retry:focus-visible { outline: 2px solid #142e43; outline-offset: 4px; }
+@keyframes meteroak-draw-ring { to { stroke-dashoffset: 0; } }
+@keyframes meteroak-loading-breathe { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
+@media (max-width: 640px) {
+  #meteroak-intro .meteroak-intro-brand { top: max(26px, env(safe-area-inset-top)); gap: 10px; }
+  #meteroak-intro .meteroak-intro-brand span { width: 31px; height: 31px; }
+  #meteroak-intro .meteroak-intro-brand strong { font-size: 23px; }
+  #meteroak-intro .meteroak-intro-copy { margin-top: 10px; }
+  #meteroak-intro .meteroak-intro-percentage { font-size: 25px; }
+  #meteroak-intro .meteroak-intro-label { font-size: 13px; }
+  #meteroak-intro .meteroak-intro-caption { font-size: 19px; letter-spacing: -.5px; margin-top: 18px; }
+}
+@media (max-height: 500px) {
+  #meteroak-intro .meteroak-intro-center { --intro-mark-size: min(220px, max(96px, calc(100vh - 220px)), 50vw); top: 55%; }
+  #meteroak-intro .meteroak-intro-brand { top: 20px; }
+  #meteroak-intro .meteroak-intro-copy { margin-top: 4px; }
+  #meteroak-intro .meteroak-intro-percentage { font-size: 27px; }
+  #meteroak-intro .meteroak-intro-caption { font-size: 18px; margin-top: 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #meteroak-intro { transition: none; }
+  #meteroak-intro .meteroak-intro-rings use { animation: none; stroke-dashoffset: 0; }
+  #meteroak-intro .meteroak-intro-label { animation: none; }
+  #meteroak-intro .meteroak-intro-progress { visibility: hidden; }
+}

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" fill="none">
+  <style>@media (prefers-color-scheme: dark) { path { stroke: #f4f7fa; } }</style>
+  <g stroke="#142e43" stroke-width="11" stroke-linecap="butt" stroke-linejoin="round">
+    <path d="M72 152H64C33.072 152 8 126.928 8 96V64C8 33.072 33.072 8 64 8H96C126.928 8 152 33.072 152 64V96C152 126.928 126.928 152 96 152H88"/>
+    <path d="M72 130H64C45.222 130 30 114.778 30 96V64C30 45.222 45.222 30 64 30H96C114.778 30 130 45.222 130 64V96C130 114.778 114.778 130 96 130H88"/>
+    <path d="M72 108C60.954 108 52 99.046 52 88V72C52 60.954 60.954 52 72 52H88C99.046 52 108 60.954 108 72V88C108 99.046 99.046 108 88 108"/>
+  </g>
+</svg>
