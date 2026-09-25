@@ -1,0 +1,109 @@
+.appearance-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.appearance-control select {
+  font-size: 11px;
+  min-height: 32px;
+  min-width: 100px;
+  max-width: 120px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: 5px;
+  padding: 6px 8px;
+  cursor: pointer;
+}
+.appearance-control select:focus-visible {
+  outline: 2px solid var(--purple);
+  outline-offset: 3px;
+}
+@media (max-width: 760px) and (min-width: 641px) {
+  .appearance-control > span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .topbar-right {
+    gap: 10px;
+  }
+}
+@media (max-width: 640px) {
+  .app-shell .topbar {
+    height: auto;
+    min-height: 0;
+    padding: 8px 16px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 3px 8px;
+  }
+  .app-shell .topbar-right {
+    display: contents;
+  }
+  .app-shell .breadcrumb {
+    grid-area: 1 / 1;
+    gap: 6px;
+    min-width: 0;
+  }
+  .app-shell .breadcrumb strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .app-shell .connection-status {
+    grid-area: 2 / 1 / 3 / -1;
+    justify-self: end;
+    margin-left: 0;
+    font-size: 9px;
+    line-height: 14px;
+  }
+  .app-shell .small-avatar {
+    grid-area: 1 / 3;
+    width: 25px;
+    height: 25px;
+  }
+  .appearance-control {
+    grid-area: 1 / 2;
+    justify-content: flex-end;
+    font-size: 10px;
+    gap: 9px;
+  }
+  .appearance-control select {
+    min-height: 40px;
+    font-size: 11px;
+    min-width: 106px;
+  }
+  .appearance-control > span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .app-shell .mobile-menu {
+    min-width: 40px;
+    min-height: 40px;
+    flex-shrink: 0;
+  }
+  .app-shell .filter-bar select,
+  .app-shell .chart-actions select,
+  .app-shell .chart-filter-row select {
+    min-height: 40px;
+    font-size: 11px;
+  }
+  .app-shell .segmented button {
+    min-width: 40px;
+    min-height: 36px;
+    font-size: 10px;
+  }
+  .app-shell .chart-actions {
+    flex-wrap: wrap;
+  }
+}

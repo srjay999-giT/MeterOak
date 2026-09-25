@@ -1,0 +1,209 @@
+.usage-chart-panel .panel-head {
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+.chart-filter-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+  min-width: 0;
+}
+.chart-filter-row label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #777b91;
+  font-size: 10px;
+  min-width: 0;
+}
+.chart-filter-row select {
+  max-width: 190px;
+  min-width: 0;
+  color: #554b7d;
+  background: #faf9fd;
+}
+.chart-filter-row > strong {
+  font-size: 13px;
+  color: #514974;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.chart-pricing-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #fffbf1;
+  border: 1px solid #f0dfbb;
+  border-radius: 6px;
+  font-size: 10px;
+  line-height: 1.6;
+  padding: 9px 11px;
+  color: #87642a;
+  margin: 8px 0 0;
+}
+.chart-pricing-note b {
+  font-weight: 550;
+}
+.unpriced-key {
+  display: inline-block;
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border: 1px solid #c1944f;
+  background: repeating-linear-gradient(125deg, #fff9ed 0px, #fff9ed 2px, #dfbe84 2px, #dfbe84 3px);
+  transform: rotate(45deg);
+  margin: 4px 2px 0;
+}
+.daily-chart {
+  min-height: 250px;
+  flex: initial;
+  margin-top: 8px;
+  display: block;
+}
+.daily-timeline {
+  width: 100%;
+  height: 250px;
+  overflow: visible;
+}
+.daily-timeline text {
+  font-size: 10px;
+}
+.day-target:focus {
+  outline: none;
+  stroke: #6855ca;
+  stroke-width: 1.5;
+}
+.daily-tooltip {
+  top: 2px;
+  max-width: 230px;
+  white-space: normal;
+  min-width: 175px;
+  padding: 10px 12px;
+  color: #777b91;
+}
+.daily-tooltip > strong {
+  display: block;
+  margin: 4px 0 6px;
+  color: #494164;
+  font-size: 12px;
+}
+.daily-tooltip small {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  line-height: 1.5;
+  font-size: 9px;
+}
+.daily-tooltip small i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex: none;
+}
+.daily-tooltip small b {
+  margin-left: auto;
+  padding-left: 10px;
+  font-weight: 500;
+}
+.chart-model-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  font-size: 9px;
+  color: #656c80;
+  line-height: 1.6;
+  margin-top: 6px;
+}
+.chart-model-legend > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.chart-model-legend .unpriced-key {
+  margin-top: 0;
+}
+.usage-chart-panel .chart-footer {
+  font-size: 9px;
+  flex-wrap: wrap;
+  margin-top: 13px;
+}
+.usage-chart-panel .chart-footer > span:first-child {
+  color: #727a8d;
+}
+.chart-empty {
+  position: absolute;
+  top: 95px;
+  left: 30px;
+  right: 0;
+  text-align: center;
+  font-size: 11px;
+  color: #7b7890;
+  background: #fffffff0;
+  padding: 12px;
+}
+.chart-values {
+  margin-top: 12px;
+  border-top: 1px solid #f1f2f7;
+  padding-top: 10px;
+}
+.chart-values summary {
+  cursor: pointer;
+  font-size: 10px;
+  color: #726394;
+}
+.chart-values .table-scroll {
+  max-height: 245px;
+  margin-top: 12px;
+}
+.chart-values th {
+  position: sticky;
+  top: 0;
+  background: #fbfcfe;
+}
+.chart-values td,
+.chart-values th {
+  padding: 9px 10px;
+  font-size: 10px;
+}
+@media (max-width: 1100px) {
+  .chart-filter-row {
+    flex-wrap: wrap;
+  }
+  .daily-timeline text {
+    font-size: 10px;
+  }
+}
+@media (max-width: 640px) {
+  .usage-chart-panel .panel-head {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .chart-filter-row {
+    margin-top: 3px;
+  }
+  .chart-filter-row > strong {
+    font-size: 12px;
+  }
+  .chart-filter-row select {
+    font-size: 10px;
+    max-width: 155px;
+  }
+  .chart-model-legend {
+    font-size: 9px;
+  }
+  .chart-pricing-note {
+    font-size: 9px;
+  }
+  .usage-chart-panel .chart-footer {
+    font-size: 8px;
+  }
+  .daily-timeline text {
+    font-size: 9px;
+  }
+  .chart-filter-row label {
+    gap: 7px;
+  }
+}

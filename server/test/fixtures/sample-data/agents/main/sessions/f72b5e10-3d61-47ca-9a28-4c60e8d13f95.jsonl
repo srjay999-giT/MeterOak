@@ -1,0 +1,4 @@
+{"type":"session","version":3,"id":"f72b5e10-3d61-47ca-9a28-4c60e8d13f95","timestamp":"2026-07-18T09:26:00.000Z","cwd":"/Users/demo/project"}
+{"type":"message","timestamp":"2026-07-18T09:26:02.000Z","message":{"role":"user","content":[{"type":"text","text":"Refactor the notification service to support batching."}]}}
+{"type":"message","timestamp":"2026-07-18T09:26:06.000Z","message":{"role":"assistant","content":[{"type":"toolCall","id":"tc_61","name":"read","arguments":{"path":"/Users/demo/project/src/notifications/service.js"}}],"model":"claude-opus-4-8","usage":{"input":1200,"output":38,"cacheRead":0}}}
+{"type":"message","timestamp":"2026-07-18T09:26:10.000Z","message":{"role":"toolResult","toolCallId":"tc_61","content":[{"type":"text","text":"export async function notify(user, message) { /* … */ }"}],"isError":false}}

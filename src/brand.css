@@ -1,0 +1,24 @@
+/* The same scalable ring mark is used in navigation and the browser tab. */
+.app-shell .brand-mark {
+  flex-shrink: 0;
+  background: #142e43;
+  border-radius: 0;
+  box-shadow: none;
+  mask: url('/meteroak-mark.svg') center / contain no-repeat;
+}
+
+.app-shell .brand-wordmark {
+  color: #101315;
+  font-family: 'Avenir Next', 'DM Sans', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.9px;
+  white-space: nowrap;
+}
+
+/* Keep the identity readable on the existing dark Portfolio sidebar. */
+.portfolio .brand-mark {
+  background: #f4f7fa;
+}
+.portfolio .brand-wordmark {
+  color: #f4f7fa;
+}
