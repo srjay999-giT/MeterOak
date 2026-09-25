@@ -12,12 +12,16 @@
   <a href="#quickstart">Quickstart</a> ·
   <a href="#how-it-works">How it works</a> ·
   <a href="#privacy-and-storage">Privacy</a> ·
-  <a href="#screenshots">Screenshots</a>
+  <a href="#quick-intro">Quick intro</a>
 </p>
 
 ![MeterOak usage overview in Portfolio mode](docs/screenshots/overview-hero.png)
 
 <p align="center"><sub>Portfolio mode · Sanitized example records · Dollar values are estimates, not a bill.</sub></p>
+
+## Quick intro
+
+https://github.com/user-attachments/assets/2145c51b-0307-4a2f-9bcf-5fcaba363ccc
 
 **Currently supports Codex and OpenCode only.** No MeterOak account, API key, or billing connection is required.
 
@@ -109,46 +113,6 @@ Configured long-context rates apply when request size is known. **Unpriced** eve
 | Data access | Chunked JSONL parsing; Node's built-in `node:sqlite` for read-only OpenCode access. |
 | Storage | Source files/databases, an in-memory reader cache, and browser `localStorage` for preferences. |
 | Quality checks | Node's test runner, TypeScript checks, Playwright Chromium, and Prettier. |
-
-## Screenshots
-
-Every dashboard capture below uses **Portfolio mode** and a sanitized snapshot. Click any image to open it at full size.
-
-### Overview — complete page
-
-![Full Portfolio overview](docs/screenshots/overview.png)
-
-### Models
-
-![Portfolio model usage page](docs/screenshots/models.png)
-
-### Session history and details
-
-![Portfolio session history](docs/screenshots/sessions.png)
-
-![Portfolio session detail dialog](docs/screenshots/session-detail.png)
-
-### Budgets
-
-![Portfolio budget targets and warnings](docs/screenshots/budgets.png)
-
-### Insights
-
-![Portfolio usage insights](docs/screenshots/insights.png)
-
-### Connections
-
-![Portfolio local source connections and diagnostics](docs/screenshots/connections.png)
-
-### Pricing methodology
-
-![Saved rates, long-context rules, and pricing coverage in Portfolio mode](docs/screenshots/pricing-details.png)
-
-### Mobile overview and opening screen
-
-<img src="docs/screenshots/mobile.png" alt="Portfolio overview on mobile" width="390">
-
-![MeterOak opening screen](docs/screenshots/opening.png)
 
 ## Roadmap
 
